@@ -57,10 +57,9 @@ public class OpenApiClientTest {
     /**
      * 接口客户端
      */
-    private OpenApiClient openApiClient;
+    private static final OpenApiClient openApiClient;
 
-    @Before
-    public void init() {
+    static {
         // 初始化 客户端
         openApiClient = OpenApiClient.builder()
                 .endpoint(ENDPOINT)
@@ -80,8 +79,7 @@ public class OpenApiClientTest {
     /**
      * 调用业务接口
      */
-    @Test
-    public void generateMerchantQrCode() {
+    public static void generateMerchantQrCode() {
         // 业务参数组装
         QrTokenInfoDto qrTokenInfoDto = new QrTokenInfoDto();
         qrTokenInfoDto.setQrCodeType("8");
@@ -99,5 +97,9 @@ public class OpenApiClientTest {
                 new TypeReference<Response<GenerateMerchantQrCodeResponse>>() {
                 }
         );
+    }
+
+    public static void main(String[] args) {
+        generateMerchantQrCode();
     }
 }
