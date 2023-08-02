@@ -1,0 +1,84 @@
+﻿<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.hisunglobal.opay</groupId>
+    <version>1.0.0-SNAPSHOT</version>
+    <artifactId>openapi-sdk</artifactId>
+    <packaging>jar</packaging>
+    <description>openapi software development kit</description>
+    <properties>
+        <java.version>1.8</java.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <hutool.version>5.8.20</hutool.version>
+        <lombok.version>1.18.28</lombok.version>
+        <hsg.framework.version>1.0.2-SNAPSHOT</hsg.framework.version>
+        <junit.version>4.13.2</junit.version>
+        <opay.version>1.0.0-SNAPSHOT</opay.version>
+        <slf4j.version>1.7.7</slf4j.version>
+    </properties>
+    <build>
+        <finalName>openapi-sdk</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.3</version>
+                <configuration>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <!--测试依赖-->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.hisunglobal.opay.clients.internal</groupId>
+            <artifactId>client-merchant</artifactId>
+            <version>${opay.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.hisunglobal.framework</groupId>
+            <artifactId>hsg-log</artifactId>
+            <version>1.0.2-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <!-- 发布仓库 -->
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <name>Nexus Release Repository</name>
+            <url>http://git.hisunglobal.cn:7101/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus</id>
+            <name>Sonatype Nexus Snapshots</name>
+            <url>http://git.hisunglobal.cn:7101/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+</project>
+
