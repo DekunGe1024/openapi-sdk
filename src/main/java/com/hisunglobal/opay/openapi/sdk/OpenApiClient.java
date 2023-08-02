@@ -115,8 +115,8 @@ public class OpenApiClient {
         if(customFunc != null) {
             httpRequest = customFunc.apply(httpRequest);
         }
-        log.debug("接口[{}]明文参数：{}",apiPath,plaintextReqBody);
-        log.debug("接口[{}]密文参数：{}",apiPath,ciphertextReqBody);
+        log.info("接口[{}]明文参数：{}",apiPath,plaintextReqBody);
+        log.info("接口[{}]密文参数：{}",apiPath,ciphertextReqBody);
         String ciphertextResBody = "";
         String plaintextResBody = "";
         try(HttpResponse execute = httpRequest.execute()){
@@ -133,8 +133,8 @@ public class OpenApiClient {
             }
             return JSONUtil.toBean(plaintextResBody, typeReference, false);
         } finally {
-            log.debug("接口[{}]密文响应：{}",apiPath,ciphertextResBody);
-            log.debug("接口[{}]明文响应：{}",apiPath,plaintextResBody);
+            log.info("接口[{}]密文响应：{}",apiPath,ciphertextResBody);
+            log.info("接口[{}]明文响应：{}",apiPath,plaintextResBody);
         }
     }
 

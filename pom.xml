@@ -11,10 +11,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <hutool.version>5.8.20</hutool.version>
         <lombok.version>1.18.28</lombok.version>
-        <hsg.framework.version>1.0.2-SNAPSHOT</hsg.framework.version>
         <junit.version>4.13.2</junit.version>
         <opay.version>1.0.0-SNAPSHOT</opay.version>
         <slf4j.version>1.7.7</slf4j.version>
+        <logback.version>1.4.8</logback.version>
     </properties>
     <build>
         <finalName>openapi-sdk</finalName>
@@ -47,38 +47,17 @@
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
         </dependency>
+        <dependency>
+             <groupId>org.slf4j</groupId>
+             <artifactId>slf4j-simple</artifactId>
+             <version>1.7.25</version>
+        </dependency>
         <!--测试依赖-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.hisunglobal.opay.clients.internal</groupId>
-            <artifactId>client-merchant</artifactId>
-            <version>${opay.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.hisunglobal.framework</groupId>
-            <artifactId>hsg-log</artifactId>
-            <version>1.0.2-SNAPSHOT</version>
-            <scope>test</scope>
         </dependency>
     </dependencies>
-    <!-- 发布仓库 -->
-    <distributionManagement>
-        <repository>
-            <id>nexus</id>
-            <name>Nexus Release Repository</name>
-            <url>http://git.hisunglobal.cn:7101/repository/maven-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>nexus</id>
-            <name>Sonatype Nexus Snapshots</name>
-            <url>http://git.hisunglobal.cn:7101/repository/maven-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 </project>
 

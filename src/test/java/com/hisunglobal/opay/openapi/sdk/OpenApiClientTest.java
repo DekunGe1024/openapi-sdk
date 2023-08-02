@@ -1,13 +1,7 @@
 package com.hisunglobal.opay.openapi.sdk;
 
 import cn.hutool.core.lang.TypeReference;
-import com.hisunglobal.enums.trade.ProductNoEnum;
-import com.hisunglobal.enums.trade.QrCodeTypeEnum;
-import com.hisunglobal.merchant.bean.model.QrTokenInfoDto;
-import com.hisunglobal.merchant.bean.model.UserNoDto;
-import com.hisunglobal.merchant.bean.res.GenerateMerchantQrCodeResponse;
-import com.hisunglobal.opay.openapi.sdk.bean.Request;
-import com.hisunglobal.opay.openapi.sdk.bean.Response;
+import com.hisunglobal.opay.openapi.sdk.bean.*;
 import com.hisunglobal.opay.openapi.sdk.bean.model.AmountDto;
 import com.hisunglobal.opay.openapi.sdk.bean.model.ApiDeviceInfoDto;
 import com.hisunglobal.opay.openapi.sdk.bean.model.ApiOrderInfoDto;
@@ -46,8 +40,8 @@ public class OpenApiClientTest {
     /**
      * 接口地址
      */
-    //private final static String ENDPOINT = "https://sitopenapi.acupayint.com";
-    private final static String ENDPOINT = "http://192.168.80.20:8006";
+    private final static String ENDPOINT = "https://sitopenapi.acupayint.com";
+    //private final static String ENDPOINT = "http://192.168.80.20:8006";
     /**
      * 应用id，联调时使用mbank。
      */
@@ -59,7 +53,7 @@ public class OpenApiClientTest {
     /**
      * 平台方rsa 公钥
      */
-    private final static String SERVER_PUB_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAmlY4Jh9D7lyl/XaGKHdp586W6T6hRHFuHboLf83yGyaQd9nOT8hQIDZpdZUguDt1UYuHSc2RGgO5x3xYumIhxmHNopl0psPoBB6h4YmrGbAt3be5kDG1LYOCZa+A492EQt7WLKbDt7N5QwSj7t70sEZ2/RGpbhxKbJSLsjW0u7yFnVqo1EvCqIbFYX8zOP3MvzUYp7j7nQ/Mmyk7Rly/iaAHFpuysEpEQsko0TTOzkCDYCZylUJeCdBrwG/2+RWYfmkS/I7Qm0GuxhJLBtScyZI7bJAmPILRbGaIs/cKG9cFoeEeTccSEpcYCxRKrQSGbv2/Y+Jge7z5cX6khV8i4wIDAQAB";
+    private final static String SERVER_PUB_KEY = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAymc5tZZnHFAOuw7jvhYCNsJXwXzz3xHzYIDqxBriEQoxGnKWcG5t9zAYYn0RuVQKieiAF21cVNkOlgh5MVDbaCfmPBFstOuMzCcjE8hCrjU0IzfK97bbaMBYKPisZQfw+c9q1TRCUmOiMO2PljdfoKqwyyzPnYcynglApFU5Rv+O6UnWm0W76Wjqi48XvdhURYtclVV1tLRScME7KUkGEuEi8nfgmvWxhFt1B7NyBn6gis71QOmSwIMg6hRJJfKOGyVnyLsaFnhDSzDll1kle3xD+1gFjzTg9xLDh9GAn4H+n3+k57wQXvxRtf+psJHBjqFv2g9t34YnfOff8tSg/QIDAQAB";
     /**
      * 接口客户端
      */
@@ -77,7 +71,7 @@ public class OpenApiClientTest {
                 .appKeyVer(1)
                 // 版本号联调时使用1
                 .serverKeyVer(1)
-                //.merchantNo("abc")
+                //.merchantNo("M5")
                 // 语言联调时暂时使用zh-CN
                 .acceptLanguage("zh-CN")
                 .builder();
@@ -90,7 +84,7 @@ public class OpenApiClientTest {
     public void generateMerchantQrCode() {
         // 业务参数组装
         QrTokenInfoDto qrTokenInfoDto = new QrTokenInfoDto();
-        qrTokenInfoDto.setQrCodeType(QrCodeTypeEnum.MERCHANT_QR_CODE.type);
+        qrTokenInfoDto.setQrCodeType("8");
         qrTokenInfoDto.setTotal(BigDecimal.valueOf(10));
         UserNoDto userNoDto = new UserNoDto();
         userNoDto.setMerchantNo("M5");
@@ -105,101 +99,5 @@ public class OpenApiClientTest {
                 new TypeReference<Response<GenerateMerchantQrCodeResponse>>() {
                 }
         );
-    }
-
-    @Test
-    public void microPayTest() {
-        // 业务参数组装
-        ApiMicroPayRequest apiMicroPayRequest = new ApiMicroPayRequest();
-        apiMicroPayRequest.setAuthCode("6216164914854390062");
-        apiMicroPayRequest.setMerchantNo("M5");
-        apiMicroPayRequest.setOrderNo(String.valueOf(System.currentTimeMillis()));
-        AmountDto amountDto = new AmountDto();
-        amountDto.setTotal(BigDecimal.valueOf(100));
-        amountDto.setCurrency("THB");
-        apiMicroPayRequest.setOrderAmount(amountDto);
-        apiMicroPayRequest.setDescription("反扫支付");
-        apiMicroPayRequest.setBackUrl("https://www.baidu.com/acuBack");
-        apiMicroPayRequest.setMerchantDeviceInfo(new ApiDeviceInfoDto());
-
-        Request<ApiMicroPayRequest> request = new Request<>();
-        request.setData(apiMicroPayRequest);
-        // 接口调用
-        Response<ApiTradeResponseDto> response = openApiClient.invokeApi(
-                "/v1/pay/microPay",
-                request,
-                new TypeReference<Response<ApiTradeResponseDto>>() {
-                });
-    }
-
-    @Test
-    public void query() {
-        // 业务参数组装
-        ApiQueryRequest apiQueryRequest = new ApiQueryRequest();
-        apiQueryRequest.setMerchantNo("M2");
-        apiQueryRequest.setOrderNo("202307071452425079619640");
-        apiQueryRequest.setTransNo(null);
-        Request<ApiQueryRequest> request = new Request<>();
-        request.setData(apiQueryRequest);
-        // 接口调用
-        Response<ApiTradeResponseDto> response = openApiClient.invokeApi(
-                "/v1/pay/query",
-                request,
-                new TypeReference<Response<ApiTradeResponseDto>>() {
-                }
-        );
-    }
-
-    @Test
-    public void unifiedOrderTest() {
-        // 业务参数组装
-        ApiOrderInfoDto apiOrderInfoDto = new ApiOrderInfoDto();
-        apiOrderInfoDto.setMerchantNo("M5");
-        apiOrderInfoDto.setProductNo(ProductNoEnum.ACQ_SCAN_QR_PAYMENT.productNo);
-        apiOrderInfoDto.setOrderNo(String.valueOf(System.currentTimeMillis()));
-        AmountDto amountDto = new AmountDto();
-        amountDto.setTotal(BigDecimal.valueOf(900));
-        amountDto.setCurrency("THB");
-        apiOrderInfoDto.setOrderAmount(amountDto);
-        apiOrderInfoDto.setDescription(ProductNoEnum.ACQ_SCAN_QR_PAYMENT.desc);
-        apiOrderInfoDto.setBackUrl("https://www.baidu.com/acuBack");
-        apiOrderInfoDto.setFrontUrl("https://www.baidu.com");
-        ApiDeviceInfoDto merchantDeviceInfo = new ApiDeviceInfoDto();
-        merchantDeviceInfo.setDeviceNo("123");
-        merchantDeviceInfo.setDeviceIp("321");
-        ApiDeviceInfoDto consumerDeviceInfo = new ApiDeviceInfoDto();
-        consumerDeviceInfo.setDeviceNo("123456");
-        consumerDeviceInfo.setDeviceIp("654123");
-
-        apiOrderInfoDto.setMerchantDeviceInfo(merchantDeviceInfo);
-        apiOrderInfoDto.setConsumerDeviceInfo(consumerDeviceInfo);
-
-        Request<ApiOrderInfoDto> request = new Request<>();
-        request.setData(apiOrderInfoDto);
-        // 接口调用
-        Response<ApiTradeResponseDto> response = openApiClient.invokeApi(
-                "/v1/pay/unifiedOrder",
-                request,
-                new TypeReference<Response<ApiTradeResponseDto>>() {
-                });
-    }
-
-    @Test
-    public void refundTest() {
-        // 业务参数组装
-        RefundRequest refundRequest = new RefundRequest();
-        refundRequest.setMerchantNo("M4");
-        refundRequest.setOrderNo(String.valueOf(System.currentTimeMillis()));
-        refundRequest.setDescription("全额退款");
-        refundRequest.setBackUrl("https://www.baidu.com/acuBack");
-        refundRequest.setOrgTransNo("2023072816591930000001");
-        Request<RefundRequest> request = new Request<>();
-        request.setData(refundRequest);
-        // 接口调用
-        Response<ApiRefundResponse> response = openApiClient.invokeApi(
-                "/v1/pay/refund",
-                request,
-                new TypeReference<Response<ApiRefundResponse>>() {
-                });
     }
 }
